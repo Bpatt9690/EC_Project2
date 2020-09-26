@@ -24,8 +24,10 @@ public class DallasSystem {
 		
 	
 	public static void main(String args[]) {
+		
 			lock = new Lock(3);
-			lock.start();
+			lock.run();
+	
 		
 		//migfht want to add logic for unique time, pursuing on hoping thread logic will take care of this
 		for(int i = 0; i < 3; i++) {

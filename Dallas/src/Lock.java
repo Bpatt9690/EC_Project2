@@ -1,17 +1,20 @@
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Lock extends Thread {
+public class Lock {
 
-	static ReentrantLock[] Relock;
-	int conveyors;
 	
-	public Lock(int converyors) {
+	//constructor if needed
+	static ReentrantLock[] Relock;
+	private int conveyors;
+
+
+	public Lock(int conveyors) {
 		this.conveyors = conveyors;
 	}
 	
 	public void run() {
 		
-		Relock = new ReentrantLock[conveyors];
+		Relock = new ReentrantLock[this.conveyors];
 		
 		for(int i = 0; i < 3; i++)
 			Relock[i] = new ReentrantLock();
