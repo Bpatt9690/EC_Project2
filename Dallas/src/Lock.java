@@ -2,11 +2,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Lock {
 
-	
-	//constructor if needed
 	static ReentrantLock[] Relock;
 	private int conveyors;
-
 
 	public Lock(int conveyors) {
 		this.conveyors = conveyors;

@@ -1,45 +1,49 @@
 import java.util.*;
 
-
 public class Stations extends Thread {
-		
+			
+	Lock lock;
+	
 	private int delay;
 	private String name;
-	Lock lock;
+	
+	private int conveyorIn;
+	private int conveyorOut;
 
-	public Stations(int delay,String name,Lock lock){
+	public Stations(int delay,String name,Lock lock,int conveyorIn,int conveyorOut){
 		this.delay = (delay*1000); //Converting miliseconds to seconds
 		this.name = name;
 		this.lock = lock;
+		this.conveyorIn = conveyorIn;
+		this.conveyorOut = conveyorOut;
 	}
 	
 	public void run() {
 		try {
-			
-			
+				
 			this.setName(this.name);
 			
-			while(true) {
 				Thread.sleep(this.delay);
-				System.out.println("Station "+this.name+" is online with time "+this.delay/1000);
+				//System.out.println(this.name+" is online with time "+this.delay/1000);
+				System.out.println(this.name+" Conveyor in is: "+conveyorIn+" Conveyor out is: "+conveyorOut+"\n");
+				
+				
+				//add logic here
+				while(true) {
 				
 				if(!lock.Relock[1].isLocked()) {
-					System.out.println("Lock 1 is unlocked");
+					System.out.println(this.name+" Lock 1 is unlocked");
 					lock.Relock[1].lock();
 				}
-				
-				System.out.println("lock 1 locked\n");
-				
+				Thread.sleep(this.delay);
+				System.out.println(this.name+" lock 1 locked\n");	
 			}
 			
-		
+			
 		} catch (InterruptedException e) {
 				
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
 	}
-	
-
 }
