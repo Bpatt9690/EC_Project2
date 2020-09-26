@@ -9,13 +9,15 @@ public class Stations extends Thread {
 	
 	private int conveyorIn;
 	private int conveyorOut;
+	private int workLoad;
 
-	public Stations(int delay,String name,Lock lock,int conveyorIn,int conveyorOut){
+	public Stations(int delay,String name,Lock lock,int conveyorIn,int conveyorOut,int workLoad){
 		this.delay = (delay*1000); //Converting miliseconds to seconds
 		this.name = name;
 		this.lock = lock;
 		this.conveyorIn = conveyorIn;
 		this.conveyorOut = conveyorOut;
+		this.workLoad = workLoad;
 	}
 	
 	public void run() {
@@ -25,7 +27,7 @@ public class Stations extends Thread {
 			
 				Thread.sleep(this.delay);
 				//System.out.println(this.name+" is online with time "+this.delay/1000);
-				System.out.println(this.name+" Conveyor in is: "+conveyorIn+" Conveyor out is: "+conveyorOut+"\n");
+				System.out.println(this.name+" Conveyor in is: "+conveyorIn+" Conveyor out is: "+conveyorOut+" Workload is "+this.workLoad+"\n");
 				
 				
 				//add logic here
