@@ -14,6 +14,7 @@ public class DallasSystem {
 	static List<String> list;
 	
 	static int stationCount;
+	static int stationOnline;
 	
 	private static int randomTimes() {
 		
@@ -26,11 +27,8 @@ public class DallasSystem {
 		 return randomNumber;
 	}
 	
-	
 	private static void ReadInput() {
 		
-		File inputFile = new File("src/input.txt");
-		Scanner myReader;
 		list = new ArrayList<>();
 		
 		try (BufferedReader br = new BufferedReader(new FileReader("src/input.txt"))) {
@@ -45,19 +43,30 @@ public class DallasSystem {
 			e.printStackTrace();
 		}
 		
-		stationCount = Integer.parseInt(list.get(0));
-		
+		stationCount = Integer.parseInt(list.get(0));		
 	}
+	
+	
+	public void stationOnline() {
+		stationOnline = stationOnline - 1;
+		
+		if(stationOnline == 0)
+			System.out.println("We done");
+	}
+	
 
 	public static void main(String args[]) {
 
 		int conveyorIn; 
 		int conveyorOut;
-		String stationName;
 		int workload;
-			
+
+		
+		String stationName;
+		
 		ReadInput();
 				
+		stationOnline = stationCount;
 		lock = new Lock(stationCount);
 		lock.run();
 	
@@ -89,7 +98,7 @@ public class DallasSystem {
 				
 			station = new Stations(time,stationName,lock,conveyorIn,conveyorOut,workload);
 			station.start();
-			
-		}				
+		}	
+				
 	}
 }

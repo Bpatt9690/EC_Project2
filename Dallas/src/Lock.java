@@ -13,7 +13,7 @@ public class Lock {
 		
 		Relock = new ReentrantLock[this.conveyors];
 		
-		for(int i = 0; i < 3; i++)
+		for(int i = 0; i < conveyors; i++)
 			Relock[i] = new ReentrantLock();
 		
 	}
