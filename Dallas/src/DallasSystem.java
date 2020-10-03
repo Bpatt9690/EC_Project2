@@ -1,4 +1,7 @@
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
@@ -8,6 +11,8 @@ public class DallasSystem {
 	
 	static Stations station;
 	static Lock lock;
+	static WorkLoadMonitor workMonitor;
+	static PrintStream fileStream;
 	
 	static int previous = 0;
 	static int time = 0;
@@ -45,15 +50,6 @@ public class DallasSystem {
 		
 		stationCount = Integer.parseInt(list.get(0));		
 	}
-	
-	
-	public void stationOnline() {
-		stationOnline = stationOnline - 1;
-		
-		if(stationOnline == 0)
-			System.out.println("We done");
-	}
-	
 
 	public static void main(String args[]) {
 
@@ -61,12 +57,33 @@ public class DallasSystem {
 		int conveyorOut;
 		int workload;
 
-		
 		String stationName;
+		
+		Path path = Paths.get("output.txt");
+		
+		try {
+			Files.deleteIfExists(path);
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
 		
 		ReadInput();
 				
 		stationOnline = stationCount;
+		
+		workMonitor = new WorkLoadMonitor(stationOnline);
+		
+		try {
+			fileStream = new PrintStream(new FileOutputStream("output.txt",true));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.setOut(fileStream);
+		
+		
 		lock = new Lock(stationCount);
 		lock.run();
 	
@@ -96,7 +113,7 @@ public class DallasSystem {
 				conveyorOut = i;
 			}
 				
-			station = new Stations(time,stationName,lock,conveyorIn,conveyorOut,workload);
+			station = new Stations(time,stationName,lock,conveyorIn,conveyorOut,workload,workMonitor);
 			station.start();
 		}	
 				

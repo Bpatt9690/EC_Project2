@@ -1,8 +1,10 @@
+import java.io.PrintStream;
 import java.util.*;
 
 public class Stations extends Thread {
 			
 	Lock lock;
+	WorkLoadMonitor workMonitor;
 	
 	private int delay;
 	private String name;
@@ -11,13 +13,14 @@ public class Stations extends Thread {
 	private int conveyorOut;
 	private int workLoad;
 
-	public Stations(int delay,String name,Lock lock,int conveyorIn,int conveyorOut,int workLoad){
+	public Stations(int delay,String name,Lock lock,int conveyorIn,int conveyorOut,int workLoad, WorkLoadMonitor workMonitor){
 		this.delay = (delay*1000); 
 		this.name = name;
 		this.lock = lock;
 		this.conveyorIn = conveyorIn;
 		this.conveyorOut = conveyorOut;
 		this.workLoad = workLoad;
+		this.workMonitor = workMonitor;
 	}
 	
 	public void run() {
@@ -91,8 +94,9 @@ public class Stations extends Thread {
 			System.out.println("* * "+this.name+": Workload succesfully completed. * *\n\n");
 			lock.Relock[this.conveyorIn].unlock();
 			lock.Relock[this.conveyorOut].unlock();
+			workMonitor.completedWorkLoad();
 
-			
+
 			Thread.currentThread().interrupt();
 		}
 		
